@@ -9,10 +9,10 @@ Shift.destroy_all
 Service.destroy_all
 ShiftEngineer.destroy_all
 
-puts '--Creating Services--'
-
-3.times do |i|
-  Service.create(name: Faker::Commerce.department.to_s)
+def create_basic_services
+  3.times do |i|
+    Service.create(name: Faker::Commerce.department.to_s)
+  end
 end
 
 def create_engineers(service_id)
@@ -92,7 +92,6 @@ end
 def create_shift_engineers(service_id, engineers)
   shift_engineers = []
   engineers.each do |engineer|
-
     Service.find(service_id).shifts.first(25).pluck(:id).each do |shift_id|
       shift_engineers << { engineer_id: engineer.id, shift_id: shift_id }
     end
@@ -103,10 +102,14 @@ def create_shift_engineers(service_id, engineers)
   end
 end
 
+puts '--Creating Services--'
+
+create_basic_services
+
 Service.all.each do |service|
   puts '-----------'
   puts "SERVICE: #{service.name}, id: #{service.id}"
-  p 'Creating engineers'
+  p 'Creating engineers for '
   create_engineers(service.id)
 
   p 'Creating shifts'
