@@ -99,7 +99,7 @@ def create_shift_engineers(service_id, engineers)
   end
 
   shift_engineers.each do |se|
-    ShiftEngineer.create(engineer_id: se[:service_id], shift_id: se[:shift_id])
+    ShiftEngineer.create(engineer_id: se[:engineer_id], shift_id: se[:shift_id])
   end
 end
 
@@ -112,7 +112,7 @@ Service.all.each do |service|
   p 'Creating shifts'
   create_shifts(service.id)
 
-  p 'Creating EngineerShifts'
+  p 'Creating ShiftEngineers'
   create_shift_engineers(service.id, service.engineers)
 end
 
