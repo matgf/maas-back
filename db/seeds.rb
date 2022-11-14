@@ -40,10 +40,9 @@ def create_shift_array(starting_hour, total_hours, service_id, date)
   end
 
   shift_array.map do |sh|
-    sh.merge({ service_id: service_id, date: date })
+    sh.merge!({ service_id: service_id, date: date })
   end
 end
-
 
 # we have to create different schedules for weekdays and weekend
 # starting_hour, total_hours_of_work
@@ -66,7 +65,7 @@ def create_shifts(service_id)
   # we create the shifts from monday to sunday
   @shifts_schedules.each do |sd|
     (@monday..@sunday).each do |day|
-      if(day.wday != 6 || day.wday != 0)
+      if(day.wday != 6 && day.wday != 0)
         shifts_to_create = create_shift_array(
           DateTime.parse(sd[:week][0]),
           sd[:week][1],
@@ -83,7 +82,7 @@ def create_shifts(service_id)
       end
 
       shifts_to_create.each do |shc|
-        Shift.create(service_id: shc[:service_id], date: shc[:date])
+        Shift.create(service_id: shc[:service_id], date: shc[:date], start_time: shc[:start_time], end_time: shc[:end_time])
       end
     end
   end
