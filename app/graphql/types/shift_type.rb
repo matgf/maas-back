@@ -10,5 +10,14 @@ module Types
     field :start_time, GraphQL::Types::ISO8601DateTime, null: false
     field :end_time, GraphQL::Types::ISO8601DateTime, null: false
     field :service_id, Integer
+    field :shift_engineers, [Types::ShiftEngineerType]
   end
+end
+
+def start_time
+  object.start_time.strftime('%H:%M %p')
+end
+
+def end_time
+  object.end_time.strftime('%H:%M %p')
 end
