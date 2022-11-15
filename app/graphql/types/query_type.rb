@@ -4,6 +4,7 @@ module Types
     include GraphQL::Types::Relay::HasNodeField
     include GraphQL::Types::Relay::HasNodesField
 
-    field :allServices, resolver: Query::ServiceResolver
+    field :allServices, resolver: Query::AllServicesResolver
+    field :service, resolver: Query::ServiceResolver
   end
 end

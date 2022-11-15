@@ -1,12 +1,12 @@
-# frozen_string_literal: true
-
 module Types
   module Query
     class ServiceResolver < BaseQuery
-      type [Types::ServiceType], null: true
 
-      def resolve
-        Service.all
+      argument :id, ID, 'The id of the service to retrieve', required: false
+      type Types::ServiceType, null: false
+
+      def resolve(id:)
+        Service.find(id)
       end
     end
   end
