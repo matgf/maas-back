@@ -1,0 +1,22 @@
+# frozen_string_literal: true
+
+
+module Mutations
+  module ShiftEngineers
+    # Mutation to create a new Learning::Experience
+    class CreateShiftEngineer < BaseMutation
+      argument :shift_engineer, ShiftEngineerInput, required: true
+
+      field :shift_engineer, Types::ShiftEngineerType, null: true
+
+      def resolve(shift_engineer:)
+        new_shift_engineer = ShiftEngineer.new(shift_id: shift_engineer[:shift_id], engineer_id: shift_engineer[:engineer_id])
+        new_shift_engineer.save
+
+        {
+          shift_engineer: new_shift_engineer
+        }
+      end
+    end
+  end
+end
