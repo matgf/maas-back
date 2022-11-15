@@ -1,8 +1,8 @@
 module Types
   class MutationType < Types::BaseObject
-    # TODO: remove me
 
     field :CreateShiftEngineer, mutation: Mutations::ShiftEngineers::CreateShiftEngineer
+    field :DestroyShiftEngineer, mutation: Mutations::ShiftEngineers::DestroyShiftEngineer
 
   end
 end

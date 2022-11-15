@@ -3,7 +3,7 @@
 
 module Mutations
   module ShiftEngineers
-    # Mutation to create a new Learning::Experience
+    # Mutation to create a new ShiftEngineer
     class CreateShiftEngineer < BaseMutation
       argument :shift_engineer, ShiftEngineerInput, required: true
 
