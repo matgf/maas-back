@@ -12,7 +12,7 @@ module Types
     field :engineers, [Types::EngineerType]
 
     def ordered_shifts
-      sas = object.shifts.reduce({}) do |groups, shift|
+      shifts = object.shifts.reduce({}) do |groups, shift|
         date = shift.date.to_s
 
         if groups[date].nil?
@@ -23,10 +23,10 @@ module Types
 
         groups
       end
-      sas.map do |el|
+      shifts.map do |shift|
         {
-          dates: el.first,
-          shifts: el.second
+          dates: shift.first,
+          shifts: shift.second
         }
       end
     end
