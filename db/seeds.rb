@@ -72,14 +72,13 @@ end
 def create_shift_engineers(service_id, engineers)
   shift_engineers = []
   engineers.each do |engineer|
-    Service.find(service_id).shifts.first(25).pluck(:id).each do |shift_id|
+    Service.find(service_id).shifts.sample(30).pluck(:id).each do |shift_id|
       shift_engineers << { engineer_id: engineer.id, shift_id: shift_id }
     end
   end
 
   shift_engineers.each do |se|
-    shift_engineer = ShiftEngineer.create(engineer_id: se[:engineer_id], shift_id: se[:shift_id])
-    shift_engineer.shift.update(assigned: true)
+    ShiftEngineer.create(engineer_id: se[:engineer_id], shift_id: se[:shift_id])
   end
 end
 
