@@ -44,9 +44,52 @@ def create_shift_array(starting_hour, total_hours, service_id, date)
   end
 end
 
+
+def create_shifts(service_id, shifts_schedule)
+  # we create the shifts from monday to sunday
+  (@monday..@sunday).each do |day|
+    if(day.wday != 6 && day.wday != 0)
+      shifts_to_create = create_shift_array(
+        Time.new(day.year, day.month, day.day, shifts_schedule[:week][0].to_time.hour),
+        shifts_schedule[:week][1],
+        service_id,
+        day
+      )
+    else
+      shifts_to_create = create_shift_array(
+        Time.new(day.year, day.month, day.day, shifts_schedule[:weekend][0].to_time.hour),
+        shifts_schedule[:weekend][1],
+        service_id,
+        day
+      )
+    end
+    shifts_to_create.each do |shc|
+      Shift.create(service_id: shc[:service_id], date: shc[:date], start_time: shc[:start_time], end_time: shc[:end_time])
+    end
+  end
+end
+
+def create_shift_engineers(service_id, engineers)
+  shift_engineers = []
+  engineers.each do |engineer|
+    Service.find(service_id).shifts.first(25).pluck(:id).each do |shift_id|
+      shift_engineers << { engineer_id: engineer.id, shift_id: shift_id }
+    end
+  end
+
+  shift_engineers.each do |se|
+    shift_engineer = ShiftEngineer.create(engineer_id: se[:engineer_id], shift_id: se[:shift_id])
+    shift_engineer.shift.update(assigned: true)
+  end
+end
+
+puts '--Creating Services--'
+
+create_basic_services
+
 # we have to create different schedules for weekdays and weekend
 # starting_hour, total_hours_of_work
-@shifts_schedules = [
+shifts_schedules = [
   {
     # first example
     week: ['19:00:00 +0000', 5],
@@ -61,58 +104,15 @@ end
     weekend: ['10:00:00 +0000', 10]
   }
 ]
-def create_shifts(service_id)
-  # we create the shifts from monday to sunday
-  @shifts_schedules.each do |sd|
-    (@monday..@sunday).each do |day|
-      if(day.wday != 6 && day.wday != 0)
-        shifts_to_create = create_shift_array(
-          DateTime.parse(sd[:week][0]),
-          sd[:week][1],
-          service_id,
-          day
-        )
-      else
-        shifts_to_create = create_shift_array(
-          DateTime.parse(sd[:weekend][0]),
-          sd[:weekend][1],
-          service_id,
-          day
-        )
-      end
-
-      shifts_to_create.each do |shc|
-        Shift.create(service_id: shc[:service_id], date: shc[:date], start_time: shc[:start_time], end_time: shc[:end_time])
-      end
-    end
-  end
-end
-
-def create_shift_engineers(service_id, engineers)
-  shift_engineers = []
-  engineers.each do |engineer|
-    Service.find(service_id).shifts.first(25).pluck(:id).each do |shift_id|
-      shift_engineers << { engineer_id: engineer.id, shift_id: shift_id }
-    end
-  end
-
-  shift_engineers.each do |se|
-    ShiftEngineer.create(engineer_id: se[:engineer_id], shift_id: se[:shift_id])
-  end
-end
-
-puts '--Creating Services--'
-
-create_basic_services
-
-Service.all.each do |service|
+Service.all.each_with_index do |service, idx|
   puts '-----------'
   puts "SERVICE: #{service.name}, id: #{service.id}"
   p 'Creating engineers for '
   create_engineers(service.id)
 
   p 'Creating shifts'
-  create_shifts(service.id)
+
+  create_shifts(service.id, shifts_schedules[idx])
 
   p 'Creating ShiftEngineers'
   create_shift_engineers(service.id, service.engineers)
