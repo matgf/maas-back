@@ -12,10 +12,8 @@ module Types
     field :engineers, [Types::EngineerType]
 
     def ordered_shifts
-      # TODO: fix start time order
-      shifts = object.shifts.sort_by { |shift| shift.date }.reduce({}) do |groups, shift|
+      shifts = object.shifts.sort_by { |shift| shift.date}.reduce({}) do |groups, shift|
         date = shift.date.to_s
-
         if groups[date].nil?
           groups[date] = []
         end
