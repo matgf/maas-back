@@ -11,6 +11,7 @@ module Types
     field :end_time, GraphQL::Types::ISO8601DateTime, null: false
     field :service_id, Integer
     field :shift_engineers, [Types::ShiftEngineerType]
+    field :engineer_id, ID
   end
 end
 
