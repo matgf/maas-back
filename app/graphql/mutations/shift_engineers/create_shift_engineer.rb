@@ -12,9 +12,7 @@ module Mutations
       def resolve(shift_engineer:)
         new_shift_engineer = ShiftEngineer.new(shift_id: shift_engineer[:shift_id], engineer_id: shift_engineer[:engineer_id])
 
-        if new_shift_engineer.save
-          new_shift_engineer.reload.shift.update(assigned: true)
-        end
+        new_shift_engineer.save
         {
           shift_engineer: new_shift_engineer
         }

@@ -11,9 +11,6 @@ module Mutations
         shift_engineer = ShiftEngineer.find(id)
 
         shift_engineer.destroy
-        if shift_engineer.shift.shift_engineers.empty?
-          shift_engineer.shift.update(assigned: false)
-        end
         {
           shift_engineer: shift_engineer
         }
