@@ -1,24 +1,70 @@
-# README
+# Monitoring as a Service API (maas-back)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+API application for Monitoring as a Service web app.
+The assignations were made using random algorithm in the AssignShift Service.
 
-Things you may want to cover:
+The entire API was made with GraphQL.
+Almost everything has its respective test.
 
-* Ruby version
+## Get started
 
-* System dependencies
+### Required instalations
+### Clone the repo
 
-* Configuration
+```shell
+git clone https://github.com/matgf/maas-back.git
+cd maas-back
+```
 
-* Database creation
+### ruby
 
-* Database initialization
+Check if you have it installed
+```shell
+ruby -v
+```
 
-* How to run the test suite
+install ruby with the last version at the moment 3.1.2 or use rvm:
 
-* Services (job queues, cache servers, search engines, etc.)
+```shell
+rvm install ruby-3.1.2
+```
 
-* Deployment instructions
+## Database Schema
 
-* ...
+maas-back uses postgres
+```
+psql --version
+version: psql (PostgreSQL) 12.12
+```
+### Install dependencies of the project
+
+```shell
+bundle install
+```
+
+### Initial configuration
+
+```shell
+rails db:create
+rails db:migrate
+rails db:seed
+```
+
+### Tests
+
+run on terminal:
+
+```shell
+bundle exec rspec
+```
+
+### Starting the Server
+
+```shell
+rails s
+```
+This will run the server at port 3000 by default.
+
+
+
+For the FrontEnd see the this [repository](https://github.com/matgf/maas-front)
