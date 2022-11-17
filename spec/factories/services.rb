@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :service do
-    name { "MyString" }
+    name { Faker::Movies::HarryPotter.house }
   end
 end
