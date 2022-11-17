@@ -6,5 +6,6 @@ module Types
 
     field :allServices, resolver: Query::AllServicesResolver
     field :service, resolver: Query::ServiceResolver
+    field :resetShifts, resolver: Query::ResetShifts
   end
 end
