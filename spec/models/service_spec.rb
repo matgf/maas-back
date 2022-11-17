@@ -17,7 +17,7 @@ RSpec.describe Service, type: :model do
 
   describe 'has_many engineers' do
     context 'when service has engineers' do
-      it 'allows accessing engineers from the rule' do
+      it 'allows accessing engineers from the service' do
         service = FactoryBot.create(:service)
         engineers = FactoryBot.create_list(:engineer, 2, service_id: service.id)
 
@@ -27,8 +27,8 @@ RSpec.describe Service, type: :model do
   end
 
   describe 'has_many shifts' do
-    context 'when service has engineers' do
-      it 'allows accessing engineers from the rule' do
+    context 'when service has shifts' do
+      it 'allows accessing shifts from the service' do
         service = FactoryBot.create(:service)
         shifts = FactoryBot.create_list(:shift, 2, service_id: service.id)
 
