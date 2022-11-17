@@ -54,6 +54,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_16_151428) do
   add_foreign_key "engineers", "services"
   add_foreign_key "shift_engineers", "engineers"
   add_foreign_key "shift_engineers", "shifts"
-  add_foreign_key "shifts", "engineers"
   add_foreign_key "shifts", "services"
 end
