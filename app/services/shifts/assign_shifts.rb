@@ -1,6 +1,5 @@
 module Shifts
   class AssignShifts
-
     def initialize(service_id)
       @engineers = Service.find(service_id).engineers
     end
@@ -19,7 +18,7 @@ module Shifts
         }
       end
 
-      engineers_with_shifts_available.each do |es|
+      engineers_with_shifts_available.shuffle.each do |es|
         es[:shift_availables].shuffle.each do |id|
           shift = Shift.find(id)
           next if shift.assigned
